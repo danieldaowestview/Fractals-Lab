@@ -15,9 +15,9 @@ public class Driver extends JPanel implements ActionListener {
 
 	public void paint(Graphics g) {
 		super.paintComponent(g);
-		// rings(g, 200, 0, 0);
-		// clover(g, 200, 0, 0);
-		// squares(g, 100, 250, 250);
+		 rings(g, 200, 0, 0);
+		 clover(g, 200, 300, 0);
+		 drawCarpet(g, 0,200, 250, 250, 5);
 		triangles(g, 200, 200, 200);
 
 	}// end of paint method - put code above for anything dealing with drawing -
@@ -42,24 +42,27 @@ public class Driver extends JPanel implements ActionListener {
 		// each call to the method would draw another ring
 		if (radius > 1) {
 			// recursively call the method if radius is > 1
-			rings(g, radius - 10, x + 10, y + 10);
+			rings(g, radius - 10, x + 5, y + 5);
 		}
 	}
 
-	public void squares(Graphics g, int width, int x, int y) {
-		g.drawRect(x, y, width + 100, width + 100);
-		g.drawRect(x + 200, y, width - 10, width - 10);
-		g.drawRect(x - 200, y, width, width);
-		g.drawRect(x, y + 200, width, width);
-		g.drawRect(x - 200, y + 200, width, width);
-		g.drawRect(x + 200, y + 200, width, width);
-		g.drawRect(x + 200, y - 200, width, width);
-		g.drawRect(x - 200, y - 200, width, width);
-		g.drawRect(x, y - 200, width, width);
-		if (width > 1) {
-			squares(g, width - 10, x + 10, y + 10);
-		}
-	}
+    public void drawCarpet(Graphics g, int x, int y, int w, int h, int depth) {
+        Color c = new Color((int) (Math.random()*255) + 1, (int) (Math.random()*255) + 1, (int) (Math.random()*255) + 1);
+    	if (depth == 0) {
+    		g.setColor(c);
+            g.fillRect(x, y, w, h);
+        } else {
+            int subW = w / 3;
+            int subH = h / 3;
+            for (int i = 0; i < 3; i++) {
+                for (int j = 0; j < 3; j++) {
+                    if (i != 1 || j != 1) {
+                        drawCarpet(g, x + i * subW, y + j * subH, subW, subH, depth - 1);
+                    }
+                }
+            }
+        }
+    }
 
 	public void triangles(Graphics g, int length, int x, int y) {
 		g.drawLine(x, y, x + length, y);
